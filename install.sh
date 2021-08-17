@@ -29,20 +29,21 @@ exit 1
 function install() {
     cd /tmp/
     send_msg "downloading full.bin"
-    wget -N --no-check-certificate -O full.bin https://cdn.jsdelivr.net/gh/ImIvey/catdrive-syno/full.bin
+    wget -N --no-check-certificate -O full.bin https://cdn.jsdelivr.net/gh/roadwide/catdrive-syno/full.bin
     on_error_exit "download full.bin failed"
     
     send_msg "start writing mdt0"
-    dd if="full.bin" of=/dev/mtdblock0 bs=1 skip=0 count=$((0xc8000))
+	dd if="full.bin" of=/dev/mtdblock0 bs=1 skip=0 count=$((0x000d5000))
     on_error_exit "write mtd0 failed"
     send_msg "start writing mdt1"
-    dd if="full.bin" of=/dev/mtdblock1 bs=1 skip=$((0x000c8000)) count=$((0x00004000))
+	dd if="full.bin" of=/dev/mtdblock1 bs=1 skip=$((0x000d5000)) count=$((0x00306000))
     on_error_exit "write mtd1 failed"
     send_msg "start writing mdt2"
-    dd if="full.bin" of=/dev/mtdblock2 bs=1 skip=$((0x000cc000)) count=$((0x00434000))
+	dd if="full.bin" of=/dev/mtdblock2 bs=1 skip=$((0x003db000)) count=$((0x00410000))
     on_error_exit "write mtd2 failed"
     send_msg "start writing mdt3"
-    dd if="full.bin" of=/dev/mtdblock3 bs=1 skip=$((0x00500000)) count=$((0x00300000))
+	dd if="full.bin" of=/dev/mtdblock3 bs=1 skip=$((0x007eb000)) count=$((0x00010000))
+
     on_error_exit "write mtd3 failed"
     
     send_msg '安装成功，猫盘已自动重启！'
